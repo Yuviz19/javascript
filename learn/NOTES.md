@@ -405,4 +405,52 @@ let sum = (a, b) => {  // the curly brace opens a multiline function
   return result; // if we use curly braces, then we need an explicit "return"
 };
 ```
-```
+
+# Code Quality
+
+## Debugging in the Browser
+- it is the process of finding and fixing errors.
+- these tools are present on almost all modern browsers and modern IDEs.
+- in chromium based browsers, there is a sources panel that can help as
+  - file navigator
+  - code editor
+- on pressing enter, there we can get a console window and enter to execute.
+
+-- Break points - 
+- in the sources code panel, if we click on a line, we activate a breakpoint.
+- A breakpoint is a where debugger will automatically pause the JS execution.
+  - while the code is paused, we can examine current variables execute commands and get them debugged 
+
+-- the command debugger
+- we can also pause the code with 'debugger' command in it.
+- as the debugger is working, we can see the following
+1. watch - shows current values for variables.
+2. call stack - shows nested calls chain.
+3. scope - local shows the function variables
+         - while the global shows the global variables
+
+-- Tracing the execution
+- to trace a script
+  - resume (F8) - continue the execution, till the next breakpoint(if any)
+  - step (F9) - run the next line/command.
+  - step over (F10) - run the next command but not into the next function.
+  - step into (F11) - similar to step, but different behaviour for asynchronous functions.
+  - step put (shift + F11) - continue the execution and stop it at the very last line.
+
+## Coding style
+- code must be clean and easy to read.
+- use semicolons in JS.
+-- declaration of functions
+- JS can work all 3 ways, 
+  - declare all functions at the start 
+  - declare all functions at the end.
+  - or go for a mixed style.
+
+> [!NOTE]
+> for style guides refer to google's JS style guide or StandardJS or Idiomatic JS.
+
+-- Linters
+- linters are tools that automatically check the style of code and make improvements with suggestions
+- this can help reduce bugs.
+- some famous ones are JSLint, JSHint and ESLint.
+
