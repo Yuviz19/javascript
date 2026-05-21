@@ -1,0 +1,265 @@
+> [!NOTE]
+> the notes are from the site javascript.info
+
+# Hello World
+- using of the alert("Hello World!")
+- and some details about the script tag on html.
+- JS uses automatic semicolons
+- " " are used to shoe the comments
+
+## the modern "use strict"
+- "use strict" or 'use strict' is to show that the below code is written in the modern way
+
+```javascript
+'use strict'
+// now the code works the modern way
+```
+
+- for normal usage u can call the 'use strict' inside a function and then write the modern version.
+- modern js offer classes and use of modules
+
+# Variables
+- named storage for data.
+- use to keyword 'let' for creating a new variable.
+- in older codebases 'var' is also used.
+- declaration and initialization both are available here.
+- declaration twice can lead to error.
+
+- constants - they are variables that can not be changed.
+- they are generally denoted with uppercassing
+
+# Data Types
+
+## Number
+- represent both integers and floating point Numbers 
+- we can do multiple operations on them (+, -, /, *)
+- special numeric values - NaN (Not a number) and Infinity (a value greater than any number)
+- any operation on NaN result to NaN.
+
+## BigInt
+- normal numbers are (2^53 -1 and -(2^53 -1)) but above them, BigInt is used for precision (1.7976931 * 10^308).
+
+## String 
+- represented by " ", ' ' or `` (backticks)
+- `` are used to provide extended functionality, to allow us to embed variables inside strings with ${...}.
+
+## Boolean
+- gives the functionality of true and false.
+
+## null
+- 'null' does not belong to any of the data types.
+- it means "empty" or "value unknown", (for future use).
+
+## undefined value
+- meaning "value not assigned"
+- if a variable is declared but not defined its type becomes undefined.
+
+## Objects
+- its a special type
+- all others are primitive (their values can contain only one thing).
+- Objects can store multiple data and more complex entities.
+#Symbol - it is used to create a unique identifier for Objects
+
+## "typeof operator"
+- this is an operand that returns the type of variable.
+
+```javascript
+typeof x // whatever type x would have been
+```
+
+# Interactions
+
+1. alert - displays a message in a "modal window" (modal means that the used can not interact with the rest of the page), and waits for the 'ok' button to be pressed.
+
+2. prompt
+- accepts 2 args
+
+```javascript
+result = prompt(title, [default])
+```
+
+- title - the thing to show to the user.
+- default - the optional parameter for an initial value in the prompt box.
+- if a user does not write anything, then the value of the variable is set to null, even with default.
+
+3. confirm
+- syntax
+
+```javascript
+result = confirm("question")
+```
+
+# Type Conversions
+- here we can explicitly convert from one types to another.
+
+1. String conversion
+- use String(value) 
+- this is mostly obvious.
+
+2. Numeric Conversions
+- it mostly happens automatically.
+- eg. alert("6"/"2") gives 3, which is numeric.
+- let num = Number(str) where str = "an arbitrary number" 
+this gives NaN
+
+3. Boolean Conversion
+- Boolean(1) true
+0 is false
+"hello" is true
+"" is false
+"0" is true
+" " is also true .. these do mean not empty.
+
+# Mathematical operations
+- The following math operations are supported:
+    Addition +,
+    Subtraction -,
+    Multiplication *,
+    Division /,
+    Remainder %,
+    Exponentiation **.
+
+- String concatenation is also done with +.
+- '1' + 2 = 12
+   2 + '1' = 21 
+
+- the '+' operator
+  - this is used as a binary and an unary form.
+  - the unary form is used to do numeric conversions 
+  +true is 1
+  +"" is false 
+
+## Operator Precedence
+- this tells which operator takes place in what order
+#NOTE - unary operator always takes place first.
+Precedence 	Name 	Sign
+… 	… 	…
+14 	unary plus 	+
+14 	unary negation 	-
+13 	exponentiation 	**
+12 	multiplication 	*
+12 	division 	/
+11 	addition 	+
+11 	subtraction 	-
+… 	… 	…
+2 	assignment 	=
+… 	… 	…
+
+- JS also supports modification in place 
+  - eg += and -= or even *= and /= 
+- JS also supports increment and decrement operator
+  -- and ++ operator which are nothing but increase and decrease by one.
+  - keep the increment and decrement order in mind.. 
+  ++counter and counter++ are different things
+
+## Bitwise Operator
+- The list of operators:
+    AND ( & )
+    OR ( | )
+    XOR ( ^ )
+    NOT ( ~ )
+    LEFT SHIFT ( << )
+    RIGHT SHIFT ( >> )
+    ZERO-FILL RIGHT SHIFT ( >>> )
+
+## Comma Operator
+- evaluates each operand in order (l to r) and return the value of the last operand.
+
+# Comparisons
+In JavaScript they are written like this:
+  - Greater/less than: a > b, a < b.
+  - Greater/less than or equals: a >= b, a <= b.
+  - Equals: a == b, please note the double equality sign == means the equality test, while a single one a = b means an assignment.
+  - Not equals: In maths the notation is ≠, but in JavaScript it’s written as a != b.
+
+- the above expressions give boolean as a result.
+
+## String Comparisons
+
+```javascript
+alert( 'Z' > 'A' ); // true
+alert( 'Glow' > 'Glee' ); // true
+alert( 'Bee' > 'Be' ); // true
+```
+
+## Strict equality
+- '==' has a problem -
+- it can not differentiate between false and 0
+it is because they are of different types as converted to numbers by == operator.
+- hence we use === operator which checks the operands without type conversion.
+- null === undefined is false
+- but null == undefined is true
+
+- strange quirks of JS
+```javascript
+alert( null > 0 );  // (1) false converts value to numbers 
+alert( null == 0 ); // (2) false for JS null is loosely equal to 0
+alert( null >= 0 ); // (3) true now for numeric conversion this becomes true
+```
+
+- for undefined all the three statements are false -> this is because the undefined is Number(undefined) => NaN
+
+# If and "?"
+- the if statement evaluates a statement in paranthesis and if the condition is true, then the block is executed
+- if(...){ ... }
+-- The else clause
+- with if we may include an optional else block. It executes if the condition is falsy.
+
+- several conditions : else if
+- may contain several conditions, and get executed when all above are falsy.
+
+## Conditional Operator '?'
+- when we need to assign a variable based on condition.
+- syntax
+```javascript
+
+let result = (condition) ? value1 : value2;
+
+//eg.
+let age = prompt('age?', 18);
+
+let message = (age < 3) ? 'Hi, baby!' :
+  (age < 18) ? 'Hello!' :
+  (age < 100) ? 'Greetings!' :
+  'What an unusual age!';
+
+alert( message );
+```
+
+## Non-Traditional use of '?'
+- it is the replacement for if and else
+
+```javascript
+let company = prompt('Which company created JavaScript?', '');
+
+if (company == 'Netscape') {
+  alert('Right!');
+} else {
+  alert('Wrong.');
+}
+
+// else
+(company == 'Netscape') ?
+   alert('Right!') : alert('Wrong.');
+```
+
+# Logical Operators
+
+1. OR ||
+--
+#NOTE - OR finds the first truthy value.
+
+2. AND && 
+--
+#NOTE - AND finds the first falsy value
+
+3. NOT !
+--
+
+# Nullish coalescing operator "??"
+- treats null and undefined similarly
+- it returns the first argument if it not null or undefined
+The result of a ?? b is:
+  - if a is defined, then a,
+  - if a isn’t defined, then b.
+
