@@ -263,3 +263,146 @@ The result of a ?? b is:
   - if a is defined, then a,
   - if a isn’t defined, then b.
 
+# Loops
+1. while 
+
+```javascript
+while(condition) {
+  // code
+  // so called loop-body
+}
+```
+
+2. do while
+
+```javascript
+do{
+  // loop body
+} while (condition)
+```
+
+3. for loop
+
+```javascript
+for (begin; condition; step){
+  // loop body
+}
+```
+
+- begin - if condition true, then run the body
+at the end of every iteration, run the step
+
+## breaking the loop
+- 'break' is used to force exit a loop
+
+## continuing to the next iteration
+- 'continue' is used to break the loop and move to next iteration
+
+## labels for break and continue
+- in a situation where we want to break or continue from a nested loop.
+- we can name our loops and then operate on them
+
+```javascript
+outer: for (let i = 0; i < 3; i++) {
+  for (let j = 0; j < 3; j++) {
+    let input = prompt(`Value at coords (${i},${j})`, '');
+    // if an empty string or canceled, then break out of both loops
+    if (!input) break outer; // (*)
+    // do something with the value...
+  }
+}
+```
+
+# Switch statements
+- switch replaces if blocks
+
+```javascript
+switch(x) {
+  case 'value1':  // if (x === 'value1')
+    ...
+    [break]
+
+  case 'value2':  // if (x === 'value2')
+    ...
+    [break]
+
+  default:
+    ...
+    [break]
+}
+```
+
+# Functions
+- these are used to perform similar actions in many places of the script.
+-- function declaration
+```javascript
+function name(parameter1, parameter2, ... parameterN) {
+ // body
+}
+```
+
+- local variables - these are variables inside the functions. they are not accessible to outer code.
+
+- a function can access an outer variable and also modify it.
+- Parameter - these are arbitrary data that is passed into a functions (aka placeholders)
+- argument - these are the actual values that are passed in the function
+
+- a function can have default values for its parameters
+```javascript
+function showMessage(from, text = "no text given") {
+  alert( from + ": " + text );
+}
+
+showMessage("Ann"); // Ann: no text given
+```
+
+## Returning a Value
+- a function can return a value back, using return keyword
+
+#NOTE - a function should be small and do exactly that is intended.
+- writing comments is also a great practise.
+
+## Function as a value
+```javascript
+function sayHi() {   // (1) create
+  alert( "Hello" );
+}
+
+let func = sayHi;    // (2) copy
+
+func(); // Hello     // (3) run the copy (it works)!
+sayHi(); // Hello    //     this still works too (why wouldn't it)
+```
+
+## Callback function
+```javascript
+function ask(question, yes, no) {
+  if (confirm(question)) yes()
+  else no();
+}
+
+function showOk() {
+  alert( "You agreed." );
+}
+
+function showCancel() {
+  alert( "You canceled the execution." );
+}
+
+// usage: functions showOk, showCancel are passed as arguments to ask
+ask("Do you agree?", showOk, showCancel);
+```
+
+# Arrow Functions
+it is a shorter form of a variable function.
+eg. let sum = (a,b) => a + b;
+
+## Multi-line arrow function
+
+```javascript
+let sum = (a, b) => {  // the curly brace opens a multiline function
+  let result = a + b;
+  return result; // if we use curly braces, then we need an explicit "return"
+};
+```
+```
