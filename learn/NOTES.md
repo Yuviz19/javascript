@@ -454,3 +454,216 @@ let sum = (a, b) => {  // the curly brace opens a multiline function
 - this can help reduce bugs.
 - some famous ones are JSLint, JSHint and ESLint.
 
+## Comments
+- document most of the things before the code and functions.
+
+## Ninja Code
+- Brevity is the soul of wit - make the code as short as possible.
+eg.
+```javascript
+// taken from a well-known javascript library
+i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
+```
+
+- One letter Variables - because a short variable disappears in code.
+- use abbreviations - 
+- Like this:
+    list → lst.
+    userAgent → ua.
+    browser → brsr.
+    …etc
+- maybe add some numbers in front of the code variables.
+- sometimes reuse names
+...
+...
+Some other things...
+
+# Objects
+- objects are used to store keyed collections of various data.
+- created with curly braces {...} with an optional list of properties.
+- A property is a "key: value" pair, where key is a string (property name) and value can be anything.
+- an empty object
+```javascript
+let user = new Object(); // object constructor syntax
+let user = {}; // object literal (declaration)
+```
+
+## Literals and properties
+
+```javascript
+let user = {     // an object
+  name: "John",  // by key "name" store value "John"
+  age: 30        // by key "age" store value 30
+};
+```
+
+- we can read the values with user.name or user.age
+- to remove a property use 'delete user.age'
+- multi-word property can be declared in "...": ...
+- #NOTE - remember to add a trailing comma, in the end, making it easier to add, remove or move around properties.
+
+-- square brackets- for multi-word properties, . does not work.
+- we need user["likes birds" ] = true; // inside square brackets.
+
+## "for..in" loop
+- to walk over all keys in objects.
+
+```javascript
+let user = {
+  name: "John",
+  age: 30,
+  isAdmin: true
+};
+
+for (let key in user) {
+  // keys
+  alert( key );  // name, age, isAdmin
+  // values for the keys
+  alert( user[key] ); // John, 30, true
+}
+```
+
+- An object is ordered in a special fashion, as integer properties are sorted.
+  - others appear in creation order.
+
+```javascript
+let codes = {
+  "49": "Germany",
+  "41": "Switzerland",
+  "44": "Great Britain",
+  // ..,
+  "1": "USA"
+};
+
+for (let code in codes) {
+  alert(code); // 1, 41, 44, 49
+}
+```
+
+- sometimes this is a problem, to fix this, we can use 
+'alert(+code)', now it works in intended order.
+
+## Object references and copying.
+- the main difference between primitives and objects is that objects are stored and copied by reference, and primitives are copied as whole values.
+  let message = "Hello!";
+  let phrase = message;
+  - as a result we have 2 independent variables.
+- but 
+  - A variable assigned to an object stores not the object itself, but its “address in memory” – in other words “a reference” to it.
+
+- let user = { name: "John" };
+  let admin = user; // copy the reference
+- now we have 2 objects that store a reference to address memory.
+- so no duplicates are formed, just a single memory space.
+- in the above example, both user and admin will give true on '==' and '===' operations.
+
+## Cloning, merging and Object.assign
+- to duplicate an object, not creating another reference we can use
+1. a for in loop to copy.
+```javascript
+let user = {
+  name: "John",
+  age: 30
+};
+
+let clone = {}; // the new empty object
+
+// let's copy all user properties into it
+for (let key in user) {
+  clone[key] = user[key];
+}
+
+// now clone is a fully independent object with the same content
+clone.name = "Pete"; // changed the data in it
+
+alert( user.name ); // still John in the original object
+```
+
+2. use Object.assign method.
+- syntax Object.assign(dest, ...sources)
+```javascript
+let user = { name: "John" };
+
+let permissions1 = { canView: true };
+let permissions2 = { canEdit: true };
+
+// copies all properties from permissions1 and permissions2 into user
+Object.assign(user, permissions1, permissions2);
+
+// now user = { name: "John", canView: true, canEdit: true }
+alert(user.name); // John
+alert(user.canView); // true
+alert(user.canEdit); // true
+```
+
+- if copied properties exists, they go overwritten.
+
+### Nested Cloning
+```javascript
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+let clone = Object.assign({}, user);
+
+alert( user.sizes === clone.sizes ); // true, same object
+
+// user and clone share sizes
+user.sizes.width = 60;    // change a property from one place
+alert(clone.sizes.width); // 60, get the result from the other one
+```
+
+- a better way is 
+  - let clone = structuredClone(user)
+  clones the object with all nested props.
+
+## Garbage collections
+- memory management is automatic in JS
+-- Reachability
+- reachable values are those that are accessible or somehow useable
+eg. In a currently executing function, its local variables and parameters, global variables [these are called roots]
+- any other value is called reachable if its reachable from a root by reference
+... some more stuff on garbage collection
+
+## object method 'this'
+- objects in JS is used to represent real world entities and their functionality with methods.
+- and when we write our code with objects it is called OOPs.
+```javascript
+// these objects do the same
+
+user = {
+  sayHi: function() {
+    alert("Hello");
+  }
+};
+
+// method shorthand looks better, right?
+user = {
+  sayHi() { // same as "sayHi: function(){...}"
+    alert("Hello");
+  }
+};
+```
+
+-- this in methods
+- to access an object, a method uses the 'this' keyword.
+eg.
+```javascript
+let user = {
+  name: "John",
+  age: 30,
+
+  sayHi() {
+    // "this" is the "current object"
+    alert(this.name);
+  }
+};
+user.sayHi(); // John
+```
+
+- otherwise it leads to error.
+
