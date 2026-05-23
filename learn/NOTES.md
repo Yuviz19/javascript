@@ -677,3 +677,150 @@ function sayhi() {
 
 user.func = sayhi();
 ```
+
+## Constructor function and 'new' Operator
+
+-- constructor function
+- they are regular functions with
+1. capital first letter
+2. should be executed only with "new" operator
+
+```javascript
+function User(name) {
+  this.name = name;
+  this.isAdmin = false;
+}
+
+let user = new User("Jack");
+
+alert(user.name); // Jack
+alert(user.isAdmin); // false
+```
+
+- when we use new keyword, an new empty object is created and assigned to this.
+
+```javascript
+let user = {
+  name: "Jack",
+  isAdmin: false
+};
+```
+is created.
+- they usually do not have a return type.
+- it generally returns the same object.
+- but if we return with an object, that object is returned.
+- methods in constructor
+```javascript
+function User(name) {
+  this.name = name;
+
+  this.sayHi = function() {
+    alert( "My name is: " + this.name );
+  };
+}
+
+let john = new User("John");
+
+john.sayHi(); // My name is: John
+
+/*
+john = {
+   name: "John",
+   sayHi: function() { ... }
+}
+*/
+```
+
+## Optional Chaining
+- this is a new addition to the lang, old browsers may need polyfills.
+
+```javascript
+let user = {};
+alert(user.address.street); // error
+
+// instead
+alert(user.address ? user.address.street : undefined);
+```
+
+### Optional Chaining
+- operator '?.'
+- stops the evaluation before '?.' is undefined
+
+```javascript
+let user = {};
+alert(user?.address?.street); // undefined
+```
+- #NOTE - the object must be declared before using the chaining operator.
+
+### Short-Circuiting
+- as said, '?.' stops the evaluation if the left part doesnt exists.
+```javascript
+let user = null;
+let x = 0;
+
+user?.sayHi(x++);
+alert(x);
+```
+
+## Symbol Type
+- only 2 primitive types serve as property keys in JS.
+- a symbol is a special identifier
+- upon creation 
+
+```javascript
+let id = Symbol();
+let id2 = Symbol("id") // symbol with a description.
+```
+
+- symbols are guaranteed to be unique, even if the symbol is with same description.
+- Hidden properties
+  - symbols allow to create "hidden" properties to object.
+
+```javascript
+let user = {
+  name: "John"
+};
+
+let id = Symbol("id");
+user[id] = 1;
+```
+
+-- symbol is an object literal
+```javascript
+let id = Symbol("id");
+
+let user = {
+  name: "John",
+  [id]: 123
+};
+```
+
+#NOTE - Symbols are skipped in 'for...in' loops.
+
+## Global Symbols
+- sometimes we need to have the same-named symbols to be same entities.
+- to achieve this we need to have a global symbol registry.
+- we create symbols in it and access them later
+- to do so we use 
+  Symbol.for(key)
+
+```javascript
+let id = Symbol.for("id");
+let idAgain = Symbol.for("id");
+
+// now both are same.
+```
+
+-- to do the opposite
+```javascript
+let sym = Symbol.for("name");
+let symw = Symbol.for("id");
+
+alert(Symbol.keyFor(sym)); // name
+alert(Symbol.keyFor(sym2)); // id
+```
+
+## Object to Primitive Conversion
+- what happens when we use +, - or alert(obj).
+- JS autoconverts the objects into primitives and their result is also primitive
+
