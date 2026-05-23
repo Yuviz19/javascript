@@ -617,7 +617,7 @@ user.sizes.width = 60;    // change a property from one place
 alert(clone.sizes.width); // 60, get the result from the other one
 ```
 
-- a better way is 
+- a better way is to use *structuredClone*
   - let clone = structuredClone(user)
   clones the object with all nested props.
 
@@ -666,4 +666,14 @@ user.sayHi(); // John
 ```
 
 - otherwise it leads to error.
+- also we can use this keyword with separatly with functions.
 
+```javascript
+let user = {name: "John"};
+
+function sayhi() {
+  return `hello from ${this.name}`
+}
+
+user.func = sayhi();
+```
