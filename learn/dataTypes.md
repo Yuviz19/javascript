@@ -163,5 +163,153 @@ alert( str ); // hi
   - pop - takes an element from the end.
 - unshift - used to add an element to the start of an array.
 
-#### Internals
-- 
+-- Internals
+- the [] syntax direcly comes from the object syntax,
+  - same as obj[key]
+
+-- Performance Quirks
+- methods push/pop run fast while shift/unshift are slower.
+
+-- Loops
+- one of the oldest way is using a for loop
+- but for Arrays "for...of" can be used
+```javascript
+let fruits = ["Apple", "Orange", "Plum"];
+
+for (let fruit of fruits){
+  alert(fruit);
+}
+```
+
+- technically for...in loop also works (coz its an object)
+- but iterates all over the properties
+
+-- length of array
+- this value updates everytime the object is updated.
+
+-- creation of new Array
+let arr = new Array("Apple", "Pear", "Plum");
+
+-- multi-dimensional array
+```javascript
+let matrix = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+];
+
+alert( matrix[0][1] ); // 2, the second value of the first inner array
+```
+
+- think of this like an array inside an array
+
+- toString - used to change an array to string
+
+#NOTE - don't compare arrays with ==, because they are objects.
+
+### Array Methods
+- splice
+  - syntax - arr.splice(start, deleteCount, elem1,.... elemN)
+  - removes deleteCount number of elements from start and insert elemN at their place.
+  - #NOTE - it returns an array, so we need to catch it in a variable
+  - u can also insert elements from a specific position by making 
+  'deleteCount = 0'
+
+- slice 
+  - syntax - arr.slice(start, end)
+  - - returns a new array, copying from arr, from start to end (end not included)
+
+- concat
+  - syntax - arr.concat(arr1, arr2,...)
+  - returns a new array concatenating the other ones.
+
+-- Iterate 'forEach'
+- syntax
+arr.forEach(function(item, index, array){  });
+
+- Searching in an array
+   - arr.indexOf and arr.includes do essentially the same thing,
+   - #NOTE that the .indexOf uses strict === for comparison
+   - arr.lastIndexOf() does the same thing as .indexOf, but from right to left.
+   
+   - find and findIndex/findLastIndex
+    - if we have an array of objects, to find an object with a specific condition.
+    ```javascript
+    let result = arr.find(function(item, index, array) {
+      // if true is returned, item is returned and iteration is stopped
+      // for falsy scenario returns undefined
+    });
+
+    - #NOTE - index is used to represent the current posittion of an element
+      - this is just normal counting, 1 to N elements 
+
+    let users = [
+      {id: 1, name: "John"},
+      {id: 2, name: "Pete"},
+      {id: 3, name: "Mary"}
+    ];
+    let user = users.find(item => item.id == 1);
+    alert(user.name); // John
+    ```
+
+- filter - the find method looks for a single first element for a true condition.
+  - while arr.filter() returns all the objects that are true.
+  - same syntax as find
+
+```javascript
+let users = [
+  {id: 1, name: "John"},
+  {id: 2, name: "Pete"},
+  {id: 3, name: "Mary"}
+];
+
+// returns array of the first two users
+let someUsers = users.filter(item => item.id < 3);
+
+alert(someUsers.length); // 2
+```
+
+-- Transforming an Array
+- map - arr.map, calls a function for each element of the array and returns the array of the results.
+- arr.map(function(item,index,array){  });
+
+- arr.sort()
+  - this returns a sorted array
+  
+```javascript
+let arr = new Array(1, 2, 15);
+arr.sort();
+
+alert(arr) // 1, 15, 2 -> this is because the .sort() sorts items as strings.
+```
+
+- use arr.sort(compareNumeric), for treating the items as numbers.
+  - the sort method sorts items on the basis of quicksort or timsort 
+
+  - for strings use localeCompare
+
+```javascript
+let countries = ['Österreich', 'Andorra', 'Vietnam'];
+alert( countries.sort( (a, b) => a > b ? 1 : -1) ); // Andorra, Vietnam, Österreich (wrong)
+alert( countries.sort( (a, b) => a.localeCompare(b) ) ); // Andorra,Österreich,Vietnam (correct!)
+```
+
+-- reverse - reverses a currently existing array
+
+-- split - used to split strings into an array
+  - str.split(<content to split from>)
+
+-- join - does the reverse of split
+
+-- reduce and reduceRignt
+  - they are used to calculate a single value based on the array.
+```javascript
+let value = arr.reduce((accumulator, item, index, array)=>{ ... , init_value});
+```
+
+- accumulator - gives the first value (equal to init_value)
+- item - it is the current array item
+- index - it is the position
+- array - it is the array
+
+- most array methods also accept an additional argument 'thisArg', except sort()
