@@ -313,3 +313,407 @@ let value = arr.reduce((accumulator, item, index, array)=>{ ... , init_value});
 - array - it is the array
 
 - most array methods also accept an additional argument 'thisArg', except sort()
+
+## Iterables
+- they are objects that are generaliastion of arrays.
+- as Arrays, there are other iterable built-in objects, eg. Strings
+  - to make other objects iterable
+  - we can use Symbol.iterator
+
+-- Strings are iterable
+- for..of loops are used for string iteration
+```javascript
+for (let char of "test") {
+  // triggers 4 times: once for each character
+  alert( char ); // t, then e, then s, then t
+}
+```
+
+4. MAP & SET
+- Map is a collection of keyed data items, like objects, the only difference is
+  map allows keys of any type.
+```javascript
+
+let map = new Map();
+
+map.set('1', 'str1');   // a string key
+map.set(1, 'num1');     // a numeric key
+map.set(true, 'bool1'); // a boolean key
+
+// remember the regular Object? it would convert keys to string
+// Map keeps the type, so these two are different:
+alert( map.get(1)   ); // 'num1'
+alert( map.get('1') ); // 'str1'
+
+alert( map.size ); // 3
+```
+
+- some map properties
+ - new Map()
+ - map.set(key, value)
+ - map.get(key)
+ - map.has(key) - returns true or false, if key exists or not
+ - map.delete(key)
+ - map.clear() - removes everything from the map
+ - map.size - current element count
+- map can also use an object as key
+
+-- Iteration over map
+we use 3 methods to iterate over map
+- map.values() - returns an iterable for values
+- map.keys() - ---"--- keys.
+
+```javascript
+let recipeMap = new Map([
+  ['cucumber', 500],
+  ['tomatoes', 350],
+  ['onion',    50]
+]);
+
+// iterate over keys (vegetables)
+for (let vegetable of recipeMap.keys()) {
+  alert(vegetable); // cucumber, tomatoes, onion
+}
+
+// iterate over values (amounts)
+for (let amount of recipeMap.values()) {
+  alert(amount); // 500, 350, 50
+}
+
+// iterate over [key, value] entries
+for (let entry of recipeMap) { // the same as of recipeMap.entries()
+  alert(entry); // cucumber,500 (and so on)
+}
+```
+
+- besides that map also has a built-in forEach method
+syntax - map.forEach((value, key, map)=>{...});
+
+-- Map from objects
+```javascript
+let obj = {
+  name: "John",
+  age: 30
+};
+
+let map = new Map(Object.entries(obj));
+
+alert( map.get('name') ); // John
+```
+
+5.5. SET
+- it is a collection ("set of values"{without keys}), where each value may occur once.
+- set methods
+  - new Set()
+  - set.add(value)
+  - set.delete(value)
+  - set.has(value)
+  - set.clear()
+  - set.size
+
+-- iteration over set
+- it can be done with for..of or forEach loop
+
+6. WeakMap & WeakSet
+
+- weak objects hold weak references to objects.
+  - if the stuff inside the map/set is removed, the data structure still holds a reference to the object
+  - but this is not true for weak entities, they can not prevent garbage collection.
+
+- the sole difference between map and WeakMap is that, for keys weakmap only accepts objects
+```javascript
+let weakMap = new WeakMap();
+
+let obj = {};
+
+weakMap.set(obj, "ok"); // works fine (object key)
+
+// can't use a string as the key
+weakMap.set("test", "Whoops"); // Error, because "test" is not an object
+```
+
+- some weakmap methods are - 
+  - weakMap.set(key, value)
+  - waakMap.get(key)
+  - weakMap.delete(key)
+  - weakMap.has(key)
+
+-- use case: additional data
+- it can be used as weakMap.set(john, "secret documents");
+
+-- use case: caching
+
+6.5. WeakSet 
+- weakSet is analogous to set.
+- but the only change is that, its weak structure.
+```javascript
+let visitedSet = new WeakSet();
+
+let john = { name: "John" };
+let pete = { name: "Pete" };
+let mary = { name: "Mary" };
+
+visitedSet.add(john); // John visited us
+visitedSet.add(pete); // Then Pete
+visitedSet.add(john); // John again
+
+// visitedSet has 2 users now
+
+// check if John visited?
+alert(visitedSet.has(john)); // true
+
+// check if Mary visited?
+alert(visitedSet.has(mary)); // false
+
+john = null;
+
+// visitedSet will be cleaned automatically
+```
+
+7. Object.keys, values and entries
+
+- Object.keys(obj) - returns an array of keys
+- Object.values(obj) - returns an array of values
+- Object.entries(obj) - returns an array of [key, value] pairs.
+
+## Destructing Assignment
+- Destructing Assignment is a special syntax that allows us to unpack arrays or objects into a bunch of variables, as convenient.
+
+### Array Destructing
+```javascript
+// we have an array with a name and surname
+let arr = ["John", "Smith"]
+
+// destructuring assignment
+// sets firstName = arr[0]
+// and surname = arr[1]
+let [firstName, surname] = arr;
+
+alert(firstName); // John
+alert(surname);  // Smith
+```
+
+- we can make stuff ignore by using commas
+- extra arguments are discarded
+- default values 
+let [name = "Guest", surname = "Anonymous"];
+
+### Object Destructing
+```javascript
+let options = {
+  title: "Menu",
+  width: 100,
+  height: 200
+};
+
+let {title, width, height} = options;
+
+alert(title);  // Menu
+alert(width);  // 100
+alert(height); // 200
+```
+
+- again we can provide the values by providing default values
+
+### Nested Destructing
+```javascript
+let options = {
+  size: {
+    width: 100,
+    height: 200
+  },
+  items: ["Cake", "Donut"],
+  extra: true
+};
+
+// destructuring assignment split in multiple lines for clarity
+let {
+  size: { // put size here
+    width,
+    height
+  },
+  items: [item1, item2], // assign items here
+  title = "Menu" // not present in the object (default value is used)
+} = options;
+
+alert(title);  // Menu
+alert(width);  // 100
+alert(height); // 200
+alert(item1);  // Cake
+alert(item2);  // Donut
+```
+
+## Data and Time
+
+## 1. Creating Date Objects
+
+There are four different ways to instantiate a new date in JavaScript using the `new Date()` constructor:
+
+```javascript
+// 1. Current Date and Time (Defaults to your local timezone)
+const now = new Date(); 
+
+// 2. From a Date String (YYYY-MM-DD or MM/DD/YYYY)
+const specificDate = new Date("2026-05-26"); 
+
+// 3. From Specific Components (Year, Month, Day, Hours, Minutes, Seconds, MS)
+// Note: Months are 0-indexed! 0 = January, 4 = May, 11 = December.
+const partyTime = new Date(2026, 4, 26, 18, 30, 0); // May 26, 2026, 6:30 PM
+
+// 4. From Timestamp (Milliseconds since Jan 1, 1970)
+const fromTimestamp = new Date(1716724800000); 
+
+```
+## 2. Getting Data (Getters)
+
+Once you have a date object, you can pull out individual pieces of information using various built-in methods.
+
+| Method | What it Returns | Example Range |
+| --- | --- | --- |
+| `getFullYear()` | The 4-digit year | `2026` |
+| `getMonth()` | The month (**0-indexed**) | `0` to `11` |
+| `getDate()` | The day of the month | `1` to `31` |
+| `getDay()` | The day of the week (**0 = Sunday**) | `0` to `6` |
+| `getHours()` | The hour of the day | `0` to `23` |
+| `getMinutes()` | The minutes | `0` to `59` |
+| `getSeconds()` | The seconds | `0` to `59` |
+| `getTime()` | Milliseconds since the Epoch | A huge number |
+
+```javascript
+const today = new Date();
+console.log(today.getFullYear()); // e.g., 2026
+console.log(today.getDay());      // e.g., 2 (Tuesday)
+
+```
+
+---
+
+## 3. Setting Data (Setters)
+
+Just like you can *get* parts of a date, you can also change (*set*) parts of a date.
+
+```javascript
+const deadLine = new Date();
+
+deadLine.setFullYear(2027);
+deadLine.setMonth(11); // Move to December
+deadLine.setDate(15);  // Move to the 15th
+
+console.log(deadLine); // Dec 15, 2027
+
+```
+
+**Pro-Tip: Auto-Correction feature**
+JavaScript date objects are smart. If you set a day to `32` on a month that only has 30 days, JavaScript will automatically roll it over to the next month!
+
+```javascript
+const date = new Date(2026, 4, 31); // May 31
+date.setDate(32); 
+console.log(date); // Automatically becomes June 1st!
+
+```
+
+---
+
+## 4. Formatting Dates as Strings
+
+Printing raw date objects looks ugly. JavaScript gives you a few built-in ways to format them cleanly:
+
+```javascript
+const myDate = new Date();
+
+console.log(myDate.toDateString());     // "Tue May 26 2026" (Human-readable date)
+console.log(myDate.toTimeString());     // "10:12:51 GMT+0530" (Human-readable time)
+console.log(myDate.toISOString());      // "2026-05-26T04:42:51.000Z" (Great for databases)
+
+```
+
+### The Ultimate Formatter: `toLocaleDateString()`
+
+If you want to format dates based on a user's location and language, use `toLocaleDateString()`:
+
+```javascript
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+console.log(myDate.toLocaleDateString('en-US', options)); 
+// Output: "Tuesday, May 26, 2026"
+
+```
+
+## 5. High-Precision Timestamps & Math
+
+If you just want a quick timestamp right now (without creating a whole new object), or if you want to calculate the difference between two times:
+
+```javascript
+// Quick timestamp
+const start = Date.now(); 
+
+// ... imagine some code running here ...
+
+const end = Date.now();
+const timeElapsed = end - start; // Time in milliseconds
+console.log(`That took ${timeElapsed} ms!`);
+
+```
+## JSON Methods and toJSON
+- to convert a complex object into a string (eg. to send it over a network)
+- luckily we have JSON (javascript object notation)
+
+- JSON.stringify - convert Objects to strings
+- JSON.parse - convert json string back to object
+
+```javascript
+let student = {
+  name: 'John',
+  age: 30,
+  isAdmin: false,
+  courses: ['html', 'css', 'js'],
+  spouse: null
+};
+
+let json = JSON.stringify(student);
+
+alert(typeof json); // we've got a string!
+
+alert(json);
+```
+
+!> [!NOTE]
+> JSON is a data only language-independent specification, JS-specific stuff is skipped by stringify.
+
+```javascript
+let user = {
+  sayHi() { // ignored
+    alert("Hello");
+  },
+  [Symbol("id")]: 123, // ignored
+  something: undefined // ignored
+};
+
+alert( JSON.stringify(user) ); // {} (empty object)
+```
+
+!> [!NOTE]
+> also there should be no circular references
+```javascript
+let room = {
+  number: 23
+};
+
+let meetup = {
+  title: "Conference",
+  participants: ["john", "ann"]
+};
+
+meetup.place = room;       // meetup references room
+room.occupiedBy = meetup; // room references meetup
+
+JSON.stringify(meetup); // Error: Converting circular structure to JSON
+```
+
+-- Excluding and transforming: replacer
+- syntax - let json = JSON.stringify(value, [replacer, space])
+  - value - the value that has been passed till now
+  - replacer - array property to encode or mapping a function
+  - space - amount of space to use for Formatting
+
+.... so on....
