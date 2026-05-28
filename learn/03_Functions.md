@@ -252,4 +252,125 @@ alert(currentUser.name);
 - "Polyfills" are a piece of code that provides modern functionality to older web browsers
 
 ## Function Object and NFE
+- in JS, functions are objects
+- they are "callable objects", we can call them, but also treat them like objects
+
+-- the name property
+- functions contain a name property as
+```javascript
+function sayHi(){
+  alert("Hi");
+}
+
+alert(sayHi.name); // sayHi
+```
+
+-- the length property
+- this returns the number of functional parameters, that a function can take
+```javascript
+function f1(a) {}
+function f2(a, b) {}
+function many(a, b, ...more) {}
+
+alert(f1.length); // 1
+alert(f2.length); // 2
+alert(many.length); // 2
+```
+
+-- custom Properties
+```javascript
+function sayHi() {
+  alert("Hi");
+
+  // let's count how many times we run
+  sayHi.counter++;
+}
+sayHi.counter = 0; // initial value
+
+sayHi(); // Hi
+sayHi(); // Hi
+
+alert( `Called ${sayHi.counter} times` ); // Called 2 times
+```
+
+## Named Function Expressions (NFE)
+
+- it is a term for function expression that have a name
+```javascript
+let sayHi = function func(who){
+  alert("hello",who);
+}
+```
+
+- the function is still available to be used as sayHi()
+- It's use cases
+  - allows to call the function itself, internally
+  - its not visible outside the function
+
+```javascript
+let sayHi = function func(who) {
+  if (who) {
+    alert(`Hello, ${who}`);
+  } else {
+    func("Guest"); // use func to re-call itself
+  }
+};
+
+sayHi(); // Hello, Guest
+
+// But this won't work:
+func(); // Error, func is not defined (not visible outside of the function)
+
+// this resolves, the changing of the variable later in the outer code
+// if this is not used
+let welcome = sayHi;
+sayHi = null;
+welcome() // <- this would break otherwise
+```
+
+## The New Function Syntax
+
+```javascript
+let func = new Function ({arg1, arg2,...} 'functionBody');
+```
+
+## Scheduling: setTimeout and setInterval
+
+- setTimeout - allows to run a function, once after the interval of time, then stops forever
+- setInterval - allows to run a function repeatedly, starting after the interval of time. Then repeating after each interval
+
+#### setTimeout 
+- syntax
+  - let timerId = setTimeout(func|code, [delay], [arg1], [arg2]...)
+- delay, by default is set to 0, so it is also called zero delay setTimeout
+
+```javascript
+function sayHi(phrase, who) {
+  alert( phrase + ', ' + who );
+}
+
+setTimeout(sayHi, 1000, "Hello", "John"); // Hello, John
+```
+
+- u can use arrow functions too,
+    - but always try to pass function and not run it
+
+-- cancelling a timeout
+- setTimeout returns a timer identifier "timerId", that we can use to cancel the timer
+let timerId = setTimeout(...);
+clearTimeout(timerId);
+
+#### setInterval
+- let timerId = setInterval(func|code, [delay],[arg1],[arg2]..);
+- this makes the code run every delay ms
+
+- u can use a setTimeout, to stop the setInterval after some time
+```javascript
+/ repeat with the interval of 2 seconds
+let timerId = setInterval(() => alert('tick'), 2000);
+
+// after 5 seconds stop
+setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
+```
+
 
