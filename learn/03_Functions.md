@@ -373,4 +373,62 @@ let timerId = setInterval(() => alert('tick'), 2000);
 setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
 ```
 
+# Decorators and Forwarding, Call/Apply
+
+## Transparent Caching
+- if a function is cpu heavy, but we need to call it often, we may want to remember/cache it.
+```javascript
+function slow(x) {
+  // there can be a heavy CPU-intensive job here
+  alert(`Called with ${x}`);
+  return x;
+}
+
+function cachingDecorator(func) {
+  let cache = new Map();
+
+  return function(x) {
+    if (cache.has(x)) {    // if there's such key in cache
+      return cache.get(x); // read the result from it
+    }
+
+    let result = func(x);  // otherwise call func
+
+    cache.set(x, result);  // and cache (remember) the result
+    return result;
+  };
+}
+
+slow = cachingDecorator(slow);
+```
+
+- so here cachingDecorator is a wrapper function around slow.
+- cachingDecorator is reusable, we can apply it to another function
+- it did not increase the complexity of slow itself
+
+## Using "func.call" for the context
+
+```javascript
+function SetUserName(username){
+  // complex calculations 
+  this.username = username;
+}
+
+function createUser(username, email, password){
+  SetUserName.call(this, username);
+  this.email = email;
+  this.password = password;
+}
+
+const chai = new createUser("chai","chai@fb", "2134");
+console.log(chai); // this shows the email and the password
+
+// the function is not getting called, hence we use .call method
+// hence when the function is called, its execution context is removed
+// hence still the username is not set
+// so we need to give the execution context
+
+// hence we pass a this key to tell the function that to reference it to the above global scope
+// call passes the current execution context to another function
+```
 
