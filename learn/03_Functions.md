@@ -422,6 +422,8 @@ function createUser(username, email, password){
 
 const chai = new createUser("chai","chai@fb", "2134");
 console.log(chai); // this shows the email and the password
+```
+```
 
 // the function is not getting called, hence we use .call method
 // hence when the function is called, its execution context is removed
@@ -432,3 +434,88 @@ console.log(chai); // this shows the email and the password
 // call passes the current execution context to another function
 ```
 
+## Bind Function
+- .. Skipping for now
+
+# Property Flags and Descriptors
+- in JS objects are not just key:value pairs
+  - objects can store properties, every property is highly configurable
+- property flags
+1. writable - if true, the value can be changed, otherwise its read-only
+2. enumerable - if true, then listed in loops, otherwise not listed
+3. configurable - if true, the property can be deleted and these attributes can be modified, otherwise not
+
+-- how to get those flags
+- let Descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
+- obj - the object whose property we want 
+- propertyName - the name of the property
+
+- propertyName - the name of the property
+```javascript
+let user = {name:"void"};
+
+let descriptor = Object.getOwnPropertyDescriptor(user, "name");
+console.log(descriptor);
+/* Output:
+{
+  value: "Yuvraj",
+  writable: true,
+  enumerable: true,
+  configurable: true
+}
+*/
+```
+
+-- modifying flags
+```javascript
+let user = {name:"void"};
+Object.defineProperty(user, "name", {writable: false})
+// now the name can not be overwritten
+
+// to enumerable
+let user = {
+  name: "Yuvraj",
+  toString() { return this.name; }
+};
+// By default, toString will show up if we loop over keys
+console.log(Object.keys(user)); // ["name", "toString"]
+// Let's hide it
+Object.defineProperty(user, "toString", {
+  enumerable: false
+});
+console.log(Object.keys(user)); // ["name"] -> toString is now hidden!
+
+// similarly, to prevent deletion or re-configuration set configurable: false
+```
+
+## Property Getters and Setters
+```javascript
+let user = {
+  name: "John",
+  surname: "Smith",
+
+  get fullName(){
+    return `${this.name} ${this.surname}`;
+  }
+
+  set fullName(value){
+    // this can be made 'smarter', by verifying or manipulating the values
+    [this.name, this.surname] = value.split(" ");
+  }
+}
+
+user.fullName = "Alice Cooper";
+```
+
+### Accessor Descriptors
+- ....
+
+### Using foe compatibility
+```javascript
+function User(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+let john = new User("John", 28);
+```
