@@ -1,5 +1,7 @@
 # Fundamentals
 
+NOTE -> these notes are based off of javascript.info site
+
 ## Script
 
 - We can use a <script> tag to add JavaScript code to a page.
